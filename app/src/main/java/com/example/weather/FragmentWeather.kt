@@ -3,6 +3,7 @@ package com.example.weather
 import android.content.ClipDescription
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,43 +30,28 @@ class FragmentWeather : Fragment() {
         return inflater.inflate(R.layout.fragment_weather, container, false)
 
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        postToList()
-        rv_recycler.layoutManager=LinearLayoutManager(this.context)
-        rv_recycler.adapter=RecyclerAdapter(titleList,descList,imgList)
-    }
-
-    private fun addToList(title:String,description: String)
-    {
-        titleList.add(title)
-        descList.add(description)
-       // imgList.add(image)
-    }
-
-    private fun postToList()
-    {
-      //  for (i in 1..25)
-      //  {
-       //     addToList("Title $i","Description $i",R.mipmap.ic_launcher_round)
-       // }
         GlobalScope.launch(Dispatchers.Main)
         {
             try {
-                val response = Retrofit().api.getWeatherMoscow()
-                if (response.isSuccessful) {
+                val response = Retrofit().api.getWeatherMoscow("Moscow")
+                if (response?.isSuccessful!!) {
                     titleList.add(response.body()?.name.toString())
-                    descList.add(response.body()?.temp.toString())
+                    descList.add(response.body()?.main?.temp.toString())
                     imgList.add(R.mipmap.ic_launcher_round)
+                    rv_recycler.layoutManager=LinearLayoutManager(context)
+                    rv_recycler.adapter=RecyclerAdapter(titleList,descList,imgList)
                 }
 
             } catch (e: Exception) {
-                 Toast.makeText(context, "Seems like error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Seems like error", Toast.LENGTH_SHORT).show()
+                Log.d("error",e.toString())
             }
         }
 
     }
+
 
 
 }

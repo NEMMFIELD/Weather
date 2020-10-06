@@ -1,11 +1,13 @@
 package com.example.weather.Network
 
 import com.example.weather.Data.Forecast
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface apiInterface {
 
-    @GET("api.openweathermap.org/data/2.5/weather?q=Moscow&appid=ee14dbc8d2b2885487c2bfe9f5745acb")
-    suspend fun getWeatherMoscow(): Response<Forecast>
+    @GET("weather?appid=92756c24107bc39dd0a7541f66ba55c5&units=metric")
+   suspend fun getWeatherMoscow(@Query("q") name: String?): Response<Forecast?>?
 }

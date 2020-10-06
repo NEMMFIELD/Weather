@@ -19,7 +19,7 @@ class RecyclerAdapter (private var titles:List<String>,private var details:List<
         init {
             itemView.setOnClickListener{v:View->
                 val position:Int=adapterPosition
-                Toast.makeText(itemView.context,"You clicked on item ${position + 1}",Toast.LENGTH_SHORT).show()
+                Toast.makeText(itemView.context,"The temperature in ${titles.get(position)} is ${details.get(position)}",Toast.LENGTH_SHORT).show()
             }
         }
     }
