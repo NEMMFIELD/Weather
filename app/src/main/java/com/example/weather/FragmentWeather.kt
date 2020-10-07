@@ -32,10 +32,19 @@ class FragmentWeather : Fragment() {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        loadWeather("Moscow")
+        loadWeather("London")
+        loadWeather("Berlin")
+
+
+    }
+
+    private fun loadWeather(str:String)
+    {
         GlobalScope.launch(Dispatchers.Main)
         {
             try {
-                val response = Retrofit().api.getWeatherMoscow("Moscow")
+                val response = Retrofit().api.getWeatherMoscow(str)
                 if (response?.isSuccessful!!) {
                     titleList.add(response.body()?.name.toString())
                     descList.add(response.body()?.main?.temp.toString())
@@ -49,7 +58,6 @@ class FragmentWeather : Fragment() {
                 Log.d("error",e.toString())
             }
         }
-
     }
 
 
